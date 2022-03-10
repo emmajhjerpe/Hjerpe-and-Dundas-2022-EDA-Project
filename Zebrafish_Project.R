@@ -9,9 +9,9 @@ zebrafish_data<-rename(my_data, total_length = TL,
             trunk_and_fin = "Trunk+Fin", dorsal_fin_height = DorsalFin, 
             dorsal_fin_length = DorsalFinLen, anal_fin_length = AnalFinLen, eye_height = EyeHt, 
             eye_length = EyeLen, hatch_time_hours = "hatchtime(hours)", average_velocity = VelAvg, 
-            max_velocity = VelMax)
+            max_velocity = VelMax, cue_type = W1A2)
 view(zebrafish_data)
-ggplot(data = my_data) + 
-  geom_point(mapping = aes(x = TL, y = YolkHt, color = hatchtime(hours), shape = W1A2)
+ggplot(data = zebrafish_data) + 
+  geom_point(mapping = aes(x = total_length, y = yolk_height, color = hatch_time_hours))
 
              

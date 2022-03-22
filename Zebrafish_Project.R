@@ -12,6 +12,7 @@ zf_data<-rename(my_data, total_length = TL,
             max_velocity = VelMax, cue_type = W1A2)
 view(zf_data)
 #Summarizing / grouping by cue type for future code/error bars
+#For error bars, use code in lines 40-49, change y-variable as needed
 zf_group<-group_by(zf_data, cue_type)
 zf_group
 

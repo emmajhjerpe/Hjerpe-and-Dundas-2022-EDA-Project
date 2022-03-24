@@ -11,30 +11,30 @@ zf_data<-rename(my_data, total_length = TL,
             eye_length = EyeLen, hatch_time_hours = "hatchtime(hours)", average_velocity = VelAvg, 
             max_velocity = VelMax, cue_type = W1A2)
 view(zf_data)
+summary(zf_data)
+length(zf_data$max_velocity)
 #Summarizing / grouping by cue type for future code/error bars
-#For error bars, use code in lines 40-49, change y-variable/mean variable as needed
+
 zf_group<-group_by(zf_data, cue_type)
 zf_group
+#Calculating T score
+alpha = 0.05
+degrees.freedom = length(zf_data) - 1
+t.score = qt(p=alpha/2, df=degrees.freedom,lower.tail=F)
+print(t.score)
 
-#Code for summaries
- #zf_summary <-
-  #summarize(
-    #zf_group, 
-    #mean_length = mean(variable),
-    #sem = sd(variable) / sqrt(n()),
-    #ci_upper_limit = mean_variable + 1.96 * sem,
-    #ci_lower_limit = mean_variable - 1.96 * sem)
+#Error is t 
 #Yolk Height, added cue and hatch time
 zf_summary_yolk <-
   summarize(
     zf_group, 
     mean_yolk = mean(yolk_height),
-    sem = sd(yolk_height) / sqrt(n()),
-    ci_upper_limit = mean_yolk + 1.96 * sem,
-    ci_lower_limit = mean_yolk - 1.96 * sem)
+    sem_yolk = sd(yolk_height) / sqrt(n()),
+    ci_upper_limit = mean_yolk + t.score * sem_yolk,
+    ci_lower_limit = mean_yolk - t.score * sem_yolk)
 
 ggplot(data = zf_data) +
-  geom_jitter(mapping = aes(x = cue_type, y = yolk_height, color = hatch_time_hours))+
+  geom_jitter(mapping = aes(x = cue_type, y = yolk_height, color = hatch_time_hours),width = 0.3)+
   geom_point(
     data = zf_summary_yolk, 
     mapping = aes(x = cue_type, y = mean_yolk, ymax = ci_upper_limit, 
@@ -57,9 +57,9 @@ zf_summaryvel <-
   summarize(
     zf_group, 
     mean_vel = mean(average_velocity),
-    sem = sd(average_velocity) / sqrt(n()),
-    ci_upper_limit = mean_vel + 1.96 * sem,
-    ci_lower_limit = mean_vel - 1.96 * sem)
+    sem_vel = sd(average_velocity) / sqrt(n()),
+    ci_upper_limit = mean_vel + t.score * sem_vel,
+    ci_lower_limit = mean_vel - t.score * sem_vel)
 
 ggplot(data = zf_data) +
   geom_jitter(mapping = aes(x = cue_type, y = average_velocity, color = hatch_time_hours))+
@@ -78,9 +78,9 @@ zf_summary_tl <-
   summarize(
     zf_group, 
     mean_length = mean(total_length),
-    sem = sd(total_length) / sqrt(n()),
-    ci_upper_limit = mean_length + 1.96 * sem,
-    ci_lower_limit = mean_length - 1.96 * sem)
+    sem_length = sd(total_length) / sqrt(n()),
+    ci_upper_limit = mean_length + t.score * sem_length,
+    ci_lower_limit = mean_length - t.score * sem_length)
 
 ggplot(data = zf_data) +
   geom_jitter(mapping = aes(x = cue_type, y = total_length, color = hatch_time_hours))+
@@ -92,6 +92,28 @@ ggplot(data = zf_data) +
   geom_linerange(
     data = zf_summary_tl, 
     mapping = aes(x = cue_type, y = mean_length, ymax = ci_upper_limit, 
+                  ymin = ci_lower_limit),
+    color = "red", size=1)
+#Max Velocity
+zf_summary_vmax <-
+  summarize(
+    zf_group, 
+    mean_vmax = mean(max_velocity),
+    sem_vmax = sd(max_velocity) / sqrt(n()),
+    ci_upper_limit = mean_vmax + t.score * sem_vmax,
+    ci_lower_limit = mean_vmax - t.score * sem_vmax)
+
+ggplot(data = zf_data) +
+  geom_jitter(mapping = aes(x = cue_type, y = max_velocity, color = hatch_time_hours),
+              width = 0.3)+
+  geom_point(
+    data = zf_summary_vmax, 
+    mapping = aes(x = cue_type, y = mean_vmax, ymax = ci_upper_limit, 
+                  ymin = ci_lower_limit),
+    color = "red", size=2)+
+  geom_linerange(
+    data = zf_summary_vmax, 
+    mapping = aes(x = cue_type, y = mean_vmax, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
     color = "red", size=1)
 

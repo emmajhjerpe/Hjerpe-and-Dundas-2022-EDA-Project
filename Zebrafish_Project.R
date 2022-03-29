@@ -107,16 +107,17 @@ zf_summary_vmax <-
 
 ggplot(data = zf_data) +
   geom_jitter(mapping = aes(x = cue_type, y = max_velocity, color = hatch_time_hours),
-              width = 0.3)+
+              width = 0.3, size=2)+
   geom_point(
     data = zf_summary_vmax, 
     mapping = aes(x = cue_type, y = mean_vmax, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=2)+scale_color_gradient(low = "blue", high = "green")+
+    color = "red", size=3)+scale_color_gradient(low = "blue", high = "green")+
   geom_linerange(
     data = zf_summary_vmax, 
     mapping = aes(x = cue_type, y = mean_vmax, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=1)
-
+    color = "red", size=2)+
+  theme_gray(base_size = 24)
+ggsave("maxvel_graph.png",height=8,width=12, units = "in", dpi = 400)
     

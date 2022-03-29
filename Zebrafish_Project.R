@@ -1,7 +1,10 @@
 library(tidyverse, ggplot, readxl)
+library(wesanderson)
 # xlsx files
 my_data <- read_excel( file.choose("ZebrafishQuantData_test.xlsx"))
-
+#Color Range
+colors_new<-colorRampPalette(c("blue", "red"))
+#Renaming
 zf_data<-rename(my_data, total_length = TL, 
               yolk_height = YolkHt, tail_length = "Lttailfromtipmsc(mm)", 
             body_cavity_lenth = BodyCavLen, trunk_total = TrunkTotal, 
@@ -34,18 +37,17 @@ zf_summary_yolk <-
     ci_lower_limit = mean_yolk - t.score * sem_yolk)
 
 ggplot(data = zf_data) +
-  geom_jitter(mapping = aes(x = cue_type, y = yolk_height, color = hatch_time_hours),width = 0.3)+
+  geom_jitter(mapping = aes(x = cue_type, y = yolk_height, color = hatch_time_hours), width = 0.3)+
   geom_point(
     data = zf_summary_yolk, 
     mapping = aes(x = cue_type, y = mean_yolk, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=2)+
+    color = "red", size=2)+ scale_color_gradient(low = "blue", high = "green")+
   geom_linerange(
     data = zf_summary_yolk, 
     mapping = aes(x = cue_type, y = mean_yolk, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
     color = "red", size=1)
-
 
 #Comparing Hatch Time and Cue Type
 ggplot(data = zf_data) +
@@ -62,12 +64,12 @@ zf_summaryvel <-
     ci_lower_limit = mean_vel - t.score * sem_vel)
 
 ggplot(data = zf_data) +
-  geom_jitter(mapping = aes(x = cue_type, y = average_velocity, color = hatch_time_hours))+
+  geom_jitter(mapping = aes(x = cue_type, y = average_velocity, color = hatch_time_hours), width = 0.3)+
   geom_point(
     data = zf_summaryvel, 
     mapping = aes(x = cue_type, y = mean_vel, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=2)+
+    color = "red", size=2)+scale_color_gradient(low = "blue", high = "green")+
       geom_linerange(
         data = zf_summaryvel, 
         mapping = aes(x = cue_type, y = mean_vel, ymax = ci_upper_limit, 
@@ -83,12 +85,12 @@ zf_summary_tl <-
     ci_lower_limit = mean_length - t.score * sem_length)
 
 ggplot(data = zf_data) +
-  geom_jitter(mapping = aes(x = cue_type, y = total_length, color = hatch_time_hours))+
+  geom_jitter(mapping = aes(x = cue_type, y = total_length, color = hatch_time_hours), width = 0.3)+
   geom_point(
     data = zf_summary_tl, 
     mapping = aes(x = cue_type, y = mean_length, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=2)+
+    color = "red", size=2)+scale_color_gradient(low = "blue", high = "green")+
   geom_linerange(
     data = zf_summary_tl, 
     mapping = aes(x = cue_type, y = mean_length, ymax = ci_upper_limit, 
@@ -110,7 +112,7 @@ ggplot(data = zf_data) +
     data = zf_summary_vmax, 
     mapping = aes(x = cue_type, y = mean_vmax, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=2)+
+    color = "red", size=2)+scale_color_gradient(low = "blue", high = "green")+
   geom_linerange(
     data = zf_summary_vmax, 
     mapping = aes(x = cue_type, y = mean_vmax, ymax = ci_upper_limit, 

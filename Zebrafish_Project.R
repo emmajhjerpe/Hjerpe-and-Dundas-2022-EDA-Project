@@ -52,7 +52,9 @@ ggplot(data = zf_data) +
 #Comparing Hatch Time and Cue Type
 ggplot(data = zf_data) +
   geom_histogram(mapping = aes(x = hatch_time_hours), binwidth = 6)+
-  facet_wrap(~ cue_type, scales = "free_y")
+  facet_wrap(~ cue_type, scales = "free_y") +
+  theme_gray(base_size = 24)
+ggsave("histogram_zf.png",height=8,width=12, units = "in", dpi = 400)
 
 #average velocity graph code + error bars
 zf_summaryvel <-
@@ -74,7 +76,9 @@ ggplot(data = zf_data) +
         data = zf_summaryvel, 
         mapping = aes(x = cue_type, y = mean_vel, ymax = ci_upper_limit, 
                       ymin = ci_lower_limit),
-        color = "red", size=1)
+        color = "red", size=1) +
+  theme_gray(base_size = 24)
+ggsave("avgvel_graph.png",height=8,width=12, units = "in", dpi = 400)
 #Average length comparison
 zf_summary_tl <-
   summarize(
@@ -95,7 +99,9 @@ ggplot(data = zf_data) +
     data = zf_summary_tl, 
     mapping = aes(x = cue_type, y = mean_length, ymax = ci_upper_limit, 
                   ymin = ci_lower_limit),
-    color = "red", size=1)
+    color = "red", size=1) +
+  theme_gray(base_size = 24)
+ggsave("avgleng_graph.png",height=8,width=12, units = "in", dpi = 400)
 #Max Velocity
 zf_summary_vmax <-
   summarize(

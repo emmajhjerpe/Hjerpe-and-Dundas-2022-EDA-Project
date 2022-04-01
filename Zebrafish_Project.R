@@ -54,7 +54,13 @@ ggplot(data = zf_data) +
   geom_histogram(mapping = aes(x = hatch_time_hours), binwidth = 6)+
   facet_wrap(~ cue_type, scales = "free_y") +
   theme_gray(base_size = 24)
-ggsave("histogram_zf.png",height=8,width=12, units = "in", dpi = 400)
+ggsave("histogram_zf.png",height=6,width=12, units = "in", dpi = 400)
+
+alarm_hatch <- c(rnorm(75, mean = 39.88571429, sd = 43.525))
+water_hatch <- c(rnorm(75, mean = 5.875029054, sd = 5.84846024))
+
+t.test(alarm_hatch, water_hatch, paired = TRUE)
+
 
 #average velocity graph code + error bars
 zf_summaryvel <-
@@ -78,7 +84,7 @@ ggplot(data = zf_data) +
                       ymin = ci_lower_limit),
         color = "red", size=1) +
   theme_gray(base_size = 24)
-ggsave("avgvel_graph.png",height=8,width=12, units = "in", dpi = 400)
+ggsave("avgvel_graph.png",height=6,width=12, units = "in", dpi = 400)
 #Average length comparison
 zf_summary_tl <-
   summarize(
@@ -101,7 +107,13 @@ ggplot(data = zf_data) +
                   ymin = ci_lower_limit),
     color = "red", size=1) +
   theme_gray(base_size = 24)
-ggsave("avgleng_graph.png",height=8,width=12, units = "in", dpi = 400)
+ggsave("avgleng_graph.png",height=6,width=12, units = "in", dpi = 400)
+
+#T Test
+alarm_tl <- c(rnorm(75, mean = 3.10E+00, sd = 0.21999453))
+water_tl <- c(rnorm(75, mean = 3.191625, sd = 0.187474947))
+
+t.test(alarm_tl, water_tl, paired = TRUE)
 #Max Velocity
 zf_summary_vmax <-
   summarize(
@@ -125,5 +137,11 @@ ggplot(data = zf_data) +
                   ymin = ci_lower_limit),
     color = "red", size=2)+
   theme_gray(base_size = 24)
-ggsave("maxvel_graph.png",height=8,width=12, units = "in", dpi = 400)
+ggsave("maxvel_graph.png",height=6,width=12, units = "in", dpi = 400)
     
+alarm_mv <- c(rnorm(75, mean = 3.263073714, sd = 4.4816925))
+water_mv <- c(rnorm(75, mean = 1.757685417, sd = 1.794126178))
+
+t.test(alarm_mv, water_mv, paired = TRUE)
+
+

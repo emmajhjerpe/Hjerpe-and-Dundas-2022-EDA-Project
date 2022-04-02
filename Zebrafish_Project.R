@@ -61,7 +61,6 @@ water_hatch <- c(rnorm(75, mean = 5.875029054, sd = 5.84846024))
 
 t.test(alarm_hatch, water_hatch, paired = TRUE)
 
-
 #average velocity graph code + error bars
 zf_summaryvel <-
   summarize(
